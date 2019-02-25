@@ -65,6 +65,9 @@
 
   $(function () {
      var serviceid = parseUrl();
+      if(!serviceid) {
+          return;
+      }
       $.ajax({
           url:'/eyaswebsite/eyas/public/getServiceDetails',
           async:true,
@@ -75,7 +78,7 @@
             $('#contentdiv').html($('#contentdiv').html()+xhrdata.details);
           },
           error:function(errodata) {
-              console.log(errodata.responseText.message);
+//              console.log(errodata.responseText.message);
               throw new Error(errodata.responseText.message);
           }
       });

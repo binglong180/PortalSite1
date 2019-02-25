@@ -88,4 +88,16 @@ public class Technology {
     public void setValidflag(boolean validflag) {
         this.validflag = validflag;
     }
+
+    public Technology() {
+
+    }
+
+    public Technology(int technologyid,String title, String comments, String imgurl, Date dmltime) {
+        this.technologyid = technologyid;
+        this.title = title;
+        this.comments = comments;
+        this.imgurl = imgurl;
+        this.dmltime = dmltime;
+    }
 }

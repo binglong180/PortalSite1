@@ -1,6 +1,7 @@
 package com.eyas.business.controllor;
 
 import com.eyas.business.model.jpa.TbService;
+import com.eyas.business.model.jpa.Technology;
 import com.eyas.business.service.PublicService;
 import com.eyas.utils.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,18 @@ public class PublicControllor {
     public TbService getServiceDetails(int serviceid) {
         TbService tbService = publicService.getServiceDetails(serviceid);
         return tbService;
+    }
+
+
+    @GetMapping("/queryTechnologys")
+    public PageResult queryTechnologys(int page,int limit) {
+        PageResult pageResult = publicService.queryTechnologys(page-1,limit);
+        return pageResult;
+    }
+
+    @GetMapping("/getTechnologysDetails")
+    public Technology getTechnologysDetails(int technologyid) {
+        Technology technology = publicService.getTechnologysDetails(technologyid);
+        return technology;
     }
 }

@@ -39,12 +39,18 @@
   <!-- banner部分 -->
   <div class="banner news">
     <div class="title">
-      <p>实时新闻</p>
-      <p class="en">Real-time News</p>
+      <p>技术应用</p>
+      <p class="en">Technology application</p>
     </div>
   </div>
   <!-- main -->
-  <div class="main-news">
+  <div class="main product">
+    <div class="layui-container">
+      <ul id="LAY_demo2">
+      </ul>
+    </div>
+  </div>
+  <!--<div class="main-news">
     <div class="layui-container">
       <div class="layui-row layui-col-space20">
         <div class="layui-col-lg6 content">
@@ -105,7 +111,7 @@
           <div>
             <div class="news-img"><a href="newsDetail.html"><img src="../res/static/img/news_img1.jpg"></a></div><div class="news-panel">
               <strong><a href="newsDetail.html">养女儿，一定要让她漂亮！</a></strong>
-              <p class="detail"><span>闹市街头，一位爸爸领着一对双胞胎女儿吸引住了我的目光。两个女儿五六岁，长得像天使一般动人。让人遗憾的是，家长给他们穿的衣服---大妈们买菜或做饭时穿的长袍式的家居服，看上去十分滑稽可笑。</span><a href="newsDetail.html">[详细]</a></p>
+              <p class="detail"><span>闹市街头，一位爸爸领着一对双胞胎女儿吸引住了我的目光。两个女儿五六岁，长得像天使一般动人。让人遗憾的是，家长给他们穿的衣服-&#45;&#45;大妈们买菜或做饭时穿的长袍式的家居服，看上去十分滑稽可笑。</span><a href="newsDetail.html">[详细]</a></p>
               <p class="read-push">阅读 <span>3393</span>&nbsp;&nbsp;&nbsp;&nbsp;发布时间：<span>2018-06-20</span></p>
             </div>
           </div>
@@ -177,7 +183,7 @@
           <div>
             <div class="news-img"><a href="newsDetail.html"><img src="../res/static/img/news_img1.jpg"></a></div><div class="news-panel">
               <strong><a href="newsDetail.html">养女儿，一定要让她漂亮！</a></strong>
-              <p class="detail"><span>闹市街头，一位爸爸领着一对双胞胎女儿吸引住了我的目光。两个女儿五六岁，长得像天使一般动人。让人遗憾的是，家长给他们穿的衣服---大妈们买菜或做饭时穿的长袍式的家居服，看上去十分滑稽可笑。</span><a href="newsDetail.html">[详细]</a></p>
+              <p class="detail"><span>闹市街头，一位爸爸领着一对双胞胎女儿吸引住了我的目光。两个女儿五六岁，长得像天使一般动人。让人遗憾的是，家长给他们穿的衣服-&#45;&#45;大妈们买菜或做饭时穿的长袍式的家居服，看上去十分滑稽可笑。</span><a href="newsDetail.html">[详细]</a></p>
               <p class="read-push">阅读 <span>3393</span>&nbsp;&nbsp;&nbsp;&nbsp;发布时间：<span>2018-06-20</span></p>
             </div>
           </div>
@@ -194,7 +200,7 @@
       </div>
       <div id="newsPage"></div>
     </div>
-  </div>
+  </div>-->
   <!-- footer部分 -->
   <div class="footer">
     <!--<div class="layui-container">
@@ -224,11 +230,70 @@
       </div>
     </div>-->
   </div>
-<script src="../res/layui/layui.js"></script>
+  <script src="../res/layui/layui.js"></script>
+  <script type="application/javascript" src="/eyaswebsite/webjars/jquery/jquery.js"></script>
 <script>
   layui.config({
     base: '../res/static/js/' 
-  }).use('firm'); 
+  }).use('firm');
+
+  layui.use('flow', function() {
+      var flow = layui.flow;
+      flow.load({
+          elem: '#LAY_demo2' //流加载容器
+          ,scrollElem: '#LAY_demo2' //滚动条所在元素，一般不用填，此处只是演示需要。
+          ,isAuto: false
+          ,isLazyimg: true
+          ,done: function(page, next){ //加载下一页
+              try {
+                  queryServices(page,4,next);
+              }catch(err) {
+                  next(null,false);
+              }
+
+          }
+      });
+
+  });
+
+  function queryServices(page,limit,next) {
+      $.ajax({
+          url:'/eyaswebsite/eyas/public/queryTechnologys',
+          async:true,
+          data:{page:page,limit:limit},
+          dataType:'json',
+          type:'GET',
+          success:function(xhrdata) {
+              var totalPages = xhrdata.totalpages;
+              var pageData = xhrdata.data;
+              var lis = [];
+              for(var i = 0; i < pageData.length; i++){
+                  var imageurl = pageData[i].imgurl;
+                  if(!imageurl) {
+                      imageurl = "/upload/image/technologydefault.jpg";
+                  }
+                  var htmlstr = '<li><div class="content layui-row">' +
+                      '<div class="layui-col-xs12 layui-col-sm6 layui-col-md7 layui-col-lg6 content-img">' +
+                      '<img src="..'+imageurl+'" style="width: 360px;height: 260.4px;margin-left: 20%;"></div>' +
+                      '<div class="layui-col-xs12 layui-col-sm6 layui-col-md5 layui-col-lg6 right">' +
+                      '<p class="label">'+pageData[i].title+'</p><p class="detail">' +
+                      pageData[i].comments+
+                      '</p><div><a href="#" onclick="fn_gotonews('+pageData[i].technologyid+')">查看产品 ></a></div></div></div></li>';
+                  lis.push(htmlstr);
+              }
+              next(lis.join(''), page < totalPages); //page小于总页数时出现“加载更多”按钮
+          },
+          error:function(errodata) {
+//              console.log(errodata.responseText.message);
+              throw new Error(errodata.responseText.message);
+          }
+      });
+  }
+
+
+  function fn_gotonews(technologyid) {
+      window.open("newsDetail.html?technologyid="+technologyid,"_blank");
+  }
 </script>
 
 </body>

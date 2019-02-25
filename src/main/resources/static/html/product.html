@@ -39,8 +39,8 @@
   <!-- banner部分 -->
   <div class="banner product">
     <div class="title">
-      <p>产品展示</p>
-      <p class="en">Product Display</p>
+      <p>服务展示</p>
+      <p class="en">Service display</p>
     </div>
   </div>
   <!-- main部分 -->
@@ -136,7 +136,7 @@
               next(lis.join(''), page < totalPages); //page小于总页数时出现“加载更多”按钮
           },
           error:function(errodata) {
-              console.log(errodata.responseText.message);
+//              console.log(errodata.responseText.message);
               throw new Error(errodata.responseText.message);
           }
       });
@@ -144,7 +144,6 @@
 
 
   function fn_gotonews(serviceid) {
-      localStorage.setItem("serviceid",serviceid);
     window.open("productDetail.html?serviceid="+serviceid,"_blank");
   }
 </script>
