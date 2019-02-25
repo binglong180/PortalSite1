@@ -1,5 +1,6 @@
 package com.eyas.business.controllor;
 
+import com.eyas.business.model.jpa.TbService;
 import com.eyas.business.service.PublicService;
 import com.eyas.utils.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,11 @@ public class PublicControllor {
     public PageResult queryServices(int page,int limit) {
         PageResult pageResult = publicService.queryServices(page-1,limit);
         return pageResult;
+    }
+
+    @GetMapping("/getServiceDetails")
+    public TbService getServiceDetails(int serviceid) {
+        TbService tbService = publicService.getServiceDetails(serviceid);
+        return tbService;
     }
 }

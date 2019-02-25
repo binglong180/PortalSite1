@@ -46,7 +46,7 @@ public class AdminControllor {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public String login(HttpServletRequest request,String username,String password) {
+    public String login(HttpServletRequest request,String username,String password) throws InterruptedException {
         String result = adminService.login(request,username,password);
         return result;
     }

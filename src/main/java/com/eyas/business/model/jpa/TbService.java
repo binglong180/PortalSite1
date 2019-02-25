@@ -95,6 +95,14 @@ public class TbService {
         this.dmltime = dmltime;
     }
 
+    public TbService(int serviceid,String title, String comments, String imgurl, Date dmltime) {
+        this.serviceid = serviceid;
+        this.title = title;
+        this.comments = comments;
+        this.imgurl = imgurl;
+        this.dmltime = dmltime;
+    }
+
     public TbService() {
 
     }

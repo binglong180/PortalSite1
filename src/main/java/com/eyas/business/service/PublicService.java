@@ -1,5 +1,6 @@
 package com.eyas.business.service;
 
+import com.eyas.business.model.jpa.TbService;
 import com.eyas.utils.page.PageResult;
 
 /**
@@ -9,4 +10,6 @@ import com.eyas.utils.page.PageResult;
  */
 public interface PublicService {
     public PageResult queryServices(int page, int limit);
+
+    public TbService getServiceDetails(int serviceid);
 }

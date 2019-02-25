@@ -20,8 +20,23 @@
     <link href="${pageContext.request.contextPath}/webjars/summernote/summernote.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/webjars/summernote/summernote.js"></script>
     <script src="${pageContext.request.contextPath}/webjars/summernote/lang/summernote-zh-CN.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/private/css/loading/load.css" media="all">
+    <script type="application/javascript">
+        $(function () {
+            $(document).ajaxStart(function(){
+                $('#test11').css('display','block');
+            });
+
+            $(document).ajaxStop(function(){
+                $('#test11').css('display','none');
+            });
+        });
+    </script>
 </head>
 <body>
+<div id="test11" class="mask" style="width: 100%;height: 100%;z-index: 999999;background-color: rgba(242,242,242, 0.5);position: absolute;display: none;">
+    <div>数据加载中...</div>
+</div>
 <form id="form1" class="layui-form" action="">
     <fieldset class="layui-elem-field">
         <legend>标题内容部分</legend>

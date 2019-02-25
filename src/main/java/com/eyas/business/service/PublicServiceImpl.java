@@ -1,9 +1,12 @@
 package com.eyas.business.service;
 
 import com.eyas.business.dao.TbServiceDao;
+import com.eyas.business.model.jpa.TbService;
+import com.eyas.business.model.pojo.TbServiceDTO;
 import com.eyas.utils.page.PageResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,5 +40,13 @@ public class PublicServiceImpl implements PublicService {
         pageRequest.setCount(tbServicePage.getTotalElements());
         pageRequest.setTotalpages(tbServicePage.getTotalPages());
         return pageRequest;
+    }
+
+    @Override
+    public TbService getServiceDetails(int serviceid) {
+        TbService tbService = tbServiceDao.getOne(serviceid);
+        TbServiceDTO tbServiceDTO = new TbServiceDTO();
+        BeanUtils.copyProperties(tbService,tbServiceDTO);
+        return tbServiceDTO;
     }
 }

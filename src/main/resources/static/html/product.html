@@ -97,7 +97,12 @@
           ,isAuto: false
           ,isLazyimg: true
           ,done: function(page, next){ //加载下一页
-              queryServices(page,4,next);
+              try {
+                  queryServices(page,4,next);
+              }catch(err) {
+                  next(null,false);
+              }
+
           }
       });
 
@@ -140,7 +145,7 @@
 
   function fn_gotonews(serviceid) {
       localStorage.setItem("serviceid",serviceid);
-    window.open("productDetail.html","_blank");
+    window.open("productDetail.html?serviceid="+serviceid,"_blank");
   }
 </script>
 

@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface TbServiceDao extends JpaRepository<TbService,Integer> {
     public Page<TbService> findAll(Specification<TbService> spec, Pageable pageable);
-    @Query(value = "select new TbService(title,comments,imgurl,dmltime) from TbService where validflag=true",
+    @Query(value = "select new TbService(serviceid,title,comments,imgurl,dmltime) from TbService where validflag=true",
     countQuery = "select count(serviceid) from TbService where validflag=true")
     public Page<TbService> findTbServices(Pageable pageable);
 }
