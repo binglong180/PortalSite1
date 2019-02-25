@@ -128,8 +128,8 @@ body{background: #FFF;}
 
 /** 关于 */
 .banner.about{background: url(../img/nav_img4.jpg) no-repeat center top; background-size: cover;}
-.main-about{padding-bottom: 130px;}
-.main-about ul.aboutab{padding: 100px 0; text-align: center;}
+.main-about{padding-bottom: 60px;}
+.main-about ul.aboutab{padding: 50px 0; text-align: center;}
 .main-about ul.aboutab li{display: inline-block; padding: 0 22px; margin-left: 15px; font-size: 20px; line-height: 46px; color: #b5b5b5; border: 1px solid #e2e2e2; border-radius: 3px; cursor: pointer;}
 .main-about ul.aboutab li:first-child{margin-left: 0;}
 .main-about ul.aboutab li.layui-this
