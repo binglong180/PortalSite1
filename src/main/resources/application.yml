@@ -1,0 +1,56 @@
+spring:
+  mvc:
+    favicon:
+      enabled: true
+    view:
+      prefix: /WEB-INF/pages/
+      suffix: .jsp
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+    static-locations:
+      - classpath:/META-INF/static/
+      - classpath:/static/
+  main:
+    banner-mode: "off"
+  profiles:
+    active:
+      - win
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  h2:
+    console:
+      enabled: true
+      path: /h2console
+      settings:
+        web-allow-others: false
+  datasource:
+    url: jdbc:h2:file:~/h2dbfile
+    driver-class-name: org.h2.Driver
+    username: eyas
+    password: eyas
+    continue-on-error: true
+    initialization-mode: always
+    schema:
+      - classpath:/schema-h2.sql
+    sql-script-encoding: UTF-8
+
+logging:
+  level:
+    root: info
+
+---
+#windows环境
+spring:
+  profiles: win
+
+---
+#linux环境
+spring:
+  profiles: linux

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+  <title>服务</title>
+  <link rel="shortcut icon" href="../favicon.ico"/>
+  <link rel="bookmark" href="../favicon.ico"/>
+  <link rel="stylesheet" href="../res/layui/css/layui.css">
+  <link rel="stylesheet" href="../res/static/css/index.css">
+</head>
+<body>
+  <!-- nav部分 -->
+  <div class="nav">
+    <div class="layui-container">
+      <!-- 公司logo -->
+      <div class="nav-logo">
+        <a href="index.html">
+          <img src="../res/static/img/logo.png" alt="类友网络">
+        </a>
+      </div>
+      <div class="nav-list">
+        <button>
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="layui-nav" lay-filter="">
+          <li class="layui-nav-item"><a href="index.html">首页</a></li>
+          <li class="layui-nav-item layui-this"><a href="product.html">服务</a></li>
+          <li class="layui-nav-item"><a href="news.html">技术应用</a></li>
+          <!--<li class="layui-nav-item"><a href="case.html">案例</a></li>-->
+          <li class="layui-nav-item"><a href="about.html">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- banner部分 -->
+  <div class="banner product">
+    <div class="title">
+      <p>产品展示</p>
+      <p class="en">Product Display</p>
+    </div>
+  </div>
+  <!-- main部分 -->
+  <div class="main product">
+    <div class="layui-container">
+      <ul id="LAY_demo2">
+      </ul>
+    </div>
+  </div>
+  <!-- footer部分 -->
+  <div class="footer">
+    <!--<div class="layui-container">
+      <p class="footer-web">
+        <a href="javascript:;">合作伙伴</a>
+        <a href="javascript:;">企业画报</a>
+        <a href="javascript:;">JS网</a>
+        <a href="javascript:;">千图网</a>
+        <a href="javascript:;">昵图网</a>
+        <a href="javascript:;">素材网</a>
+        <a href="javascript:;">花瓣网</a>
+      </p>
+      <div class="layui-row footer-contact">
+        <div class="layui-col-sm2 layui-col-lg1"><img src="../res/static/img/erweima.jpg"></div>
+        <div class="layui-col-sm10 layui-col-lg11">
+          <div class="layui-row">
+            <div class="layui-col-sm6 layui-col-md8 layui-col-lg9">
+              <p class="contact-top"><i class="layui-icon layui-icon-cellphone"></i>&nbsp;400-8888888&nbsp;&nbsp;&nbsp;(9:00-18:00)</p>
+              <p class="contact-bottom"><i class="layui-icon layui-icon-home"></i>&nbsp;88888888@163.com</span></p>
+            </div>
+            <div class="layui-col-sm6 layui-col-md4 layui-col-lg3">
+              <p class="contact-top"><span class="right">浙江杭州阿里巴巴西溪园区</span></p>
+              <p class="contact-bottom"><span class="right">Copyright&nbsp;©&nbsp;2016-2018&nbsp;&nbsp;ICP&nbsp;备888888号</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <script src="../res/layui/layui.js"></script>
+  <script type="application/javascript" src="/eyaswebsite/webjars/jquery/jquery.js"></script>
+<!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script>
+  layui.config({
+    base: '../res/static/js/' 
+  }).use('firm');
+  layui.use('flow', function() {
+      var flow = layui.flow;
+      flow.load({
+          elem: '#LAY_demo2' //流加载容器
+          ,scrollElem: '#LAY_demo2' //滚动条所在元素，一般不用填，此处只是演示需要。
+          ,isAuto: false
+          ,isLazyimg: true
+          ,done: function(page, next){ //加载下一页
+              queryServices(page,4,next);
+          }
+      });
+
+  });
+
+  function queryServices(page,limit,next) {
+      $.ajax({
+          url:'/eyaswebsite/eyas/public/queryServices',
+          async:true,
+          data:{page:page,limit:limit},
+          dataType:'json',
+          type:'GET',
+          success:function(xhrdata) {
+              var totalPages = xhrdata.totalpages;
+              var pageData = xhrdata.data;
+              var lis = [];
+              for(var i = 0; i < pageData.length; i++){
+                  var imageurl = pageData[i].imgurl;
+                  if(!imageurl) {
+                      imageurl = "/upload/image/servicedefault.jpg";
+                  }
+                  var htmlstr = '<li><div class="content layui-row">' +
+                      '<div class="layui-col-xs12 layui-col-sm6 layui-col-md7 layui-col-lg6 content-img">' +
+                      '<img src="..'+imageurl+'" style="width: 360px;height: 260.4px;margin-left: 20%;"></div>' +
+                      '<div class="layui-col-xs12 layui-col-sm6 layui-col-md5 layui-col-lg6 right">' +
+                      '<p class="label">'+pageData[i].title+'</p><p class="detail">' +
+                      pageData[i].comments+
+                      '</p><div><a href="#" onclick="fn_gotonews('+pageData[i].serviceid+')">查看产品 ></a></div></div></div></li>';
+                  lis.push(htmlstr);
+              }
+              next(lis.join(''), page < totalPages); //page小于总页数时出现“加载更多”按钮
+          },
+          error:function(errodata) {
+              console.log(errodata.responseText.message);
+              throw new Error(errodata.responseText.message);
+          }
+      });
+  }
+
+
+  function fn_gotonews(serviceid) {
+      localStorage.setItem("serviceid",serviceid);
+    window.open("productDetail.html","_blank");
+  }
+</script>
+
+</body>
+</html>
